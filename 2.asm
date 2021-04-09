@@ -1,16 +1,15 @@
-;Задача: дан массив из 10 слов. Инвертировать все отрицательные
-;числа и найти сумму элементов полученного массива.
-
 format ELF64
 
+extrn printf
+
 section '.data'
-array dw 1, 2, 3, 4, 5, -6, -7, -8, -9, -10; 15 + 30 + 10 = 55
+array dw 1, 2, 3, 4, 5, -6, -7, -8, -9, -10
 format_str_for_digit db "%d", 10, 0
 
 section '.text' executable
 
-public _start
-_start:
+public main
+main:
         mov rsi, array
         mov rcx, 10
         mov rax, 0
@@ -21,13 +20,20 @@ _start:
                 add rsi, 2
                 cmp ax, 0
                 jge skip
-                not ax
-                add ax, 1
+		mov edx, eax
+		sub edx, eax
+		sub edx, eax
+		mov eax, edx
         skip:
                 add bx, ax
         loop lp
 
+	mov esi, ebx
+	mov edi, format_str_for_digit
+	mov eax, 0
+	call printf
+	;add rsp, 16
 exit:
-        mov eax,1
+        mov rax,1
         int 0x80
 
